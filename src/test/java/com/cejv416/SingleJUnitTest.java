@@ -5,6 +5,7 @@ import com.cejv416.cejv416a_assignment01_unittest.data.FinanceBean;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  *
@@ -22,7 +23,7 @@ public class SingleJUnitTest {
         calculator = new Calculator();
     }
 
-//    @Disabled
+    @Test
     public void testLoan() {
         fb.setLoanAmount(5000.0);
         fb.setInterestRate(0.05);
@@ -31,6 +32,7 @@ public class SingleJUnitTest {
         assertEquals(94.36, fb.getResult());
     }
     
+    @Test
     public void testFutureValue() {
         fb.setSavingsAmount(100.0);
         fb.setInterestRate(0.05);
@@ -40,6 +42,7 @@ public class SingleJUnitTest {
     
     }
 
+    @Test
     public void testSavingsGoal() {
         fb.setFutureValue(6800.61);
         fb.setInterestRate(0.05);
