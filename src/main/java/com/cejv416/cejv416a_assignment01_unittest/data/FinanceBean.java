@@ -20,6 +20,9 @@ public class FinanceBean {
      */
     public FinanceBean() {
     }
+    
+    // FinanceBean bob = new FinanceBean();
+    // FinanceBean bob = new FinanceBean(5000,0,0, 0.05, 60)
 
     /**
      * Non-default constructor that allows the class to be instantiated with
@@ -100,4 +103,6 @@ public class FinanceBean {
         sb.append('}');
         return sb.toString();
     }
+
+
 }

@@ -14,7 +14,7 @@ import java.util.Scanner;
  */
 public class UserInterface {
 
-    private final FinanceBean fb;
+    private FinanceBean fb;
     private final Scanner sc;
 
     /**
@@ -22,7 +22,6 @@ public class UserInterface {
      */
     public UserInterface() {
         sc = new Scanner(System.in);
-        fb = new FinanceBean();
     }
 
     /**
@@ -79,8 +78,9 @@ public class UserInterface {
      */
     private double inputDouble(String prompt, double upperRange) {
         double value = 0.0; // User input
-        boolean inCorrect = false; // If value is not a double or out of range
+        boolean inCorrect; // If value is not a double or out of range
         do {
+            inCorrect = false;
             System.out.println(prompt + upperRange + ": ");
             if (sc.hasNextDouble()) { // Check that there is a double in the keyboard buffer
                 value = sc.nextDouble(); // 
@@ -99,31 +99,33 @@ public class UserInterface {
         return value;
     }
 
+    private void doInterestAndRate() {
+        fb.setInterestRate(inputDouble("Enter interest rate as a decimal (5% -> 0.05), maximum: ", 1.0));
+        fb.setTerm(inputDouble("Enter the term in months: ", 120.0));
+        
+    }
     /**
      * Request values for loan payment calculation, storing the data in a FinanceBean object
      */
     private void doLoanPaymentInput() {
         fb.setLoanAmount(inputDouble("Enter loan amount, maximum: ", 1_000_000.00));
-        fb.setInterestRate(inputDouble("Enter interest rate as a decimal (5% -> 0.05), maximum: ", 1.0));
-        fb.setTerm(inputDouble("Enter the term in months: ", 120.0));
-    }
+        doInterestAndRate();
+        }
 
     /**
      * Request values for future value calculation, storing the data in a FinanceBean object
      */
     private void doFutureValueInput() {
-        fb.setFutureValue(inputDouble("Enter monthly savings amount, maximum ", 1_000.00));
-        fb.setInterestRate(inputDouble("Enter interest rate as a decimal (5% -> 0.05), maximum: ", 1.0));
-        fb.setTerm(inputDouble("Enter the term in months, maximum: ", 120.0));
+        fb.setSavingsAmount(inputDouble("Enter monthly savings amount, maximum ", 1_000.00));
+        doInterestAndRate();
     }
 
     /**
      * Request values for savings goal calculation, storing the data in a FinanceBean object
      */
     private void doSavingsGoalInput() {
-        fb.setSavingsAmount(inputDouble("Enter savings goal amount, maximum: ", 1_000_000.00));
-        fb.setInterestRate(inputDouble("Enter interest rate as a decimal (5% -> 0.05) maximum: ", 1.0));
-        fb.setTerm(inputDouble("Enter the term in months, maximum: ", 120.0));
+        fb.setFutureValue(inputDouble("Enter savings goal amount, maximum: ", 1_000_000.00));
+        doInterestAndRate();
     }
 
     /**
@@ -139,18 +141,23 @@ public class UserInterface {
             choice = menu();
             switch (choice) {
                 case 'A' -> {
+                    fb = new FinanceBean();
                     doLoanPaymentInput();
                     calculator.doLoanPayment(fb);
                     System.out.printf("Monthly payment will be %.2f.\n\n", fb.getResult());
                 }
                 case 'B' -> {
+                    fb = new FinanceBean();
                     doFutureValueInput();
-                    calculator.doSavingsGoal(fb);
+                    System.out.println(fb.toString());
+                    calculator.doFutureValue(fb);
                     System.out.printf("Savings goal %.2f.\n\n", fb.getResult());
                 }
                 case 'C' -> {
+                    fb = new FinanceBean();
                     doSavingsGoalInput();
-                    calculator.doFutureValue(fb);
+                    System.out.println(fb.toString());
+                    calculator.doSavingsGoal(fb);
                     System.out.printf("Save %.2f each month.\n\n", fb.getResult());
                 }
                 case 'D' ->

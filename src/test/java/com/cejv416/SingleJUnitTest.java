@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author omni_
  */
+//@Disabled
 public class SingleJUnitTest {
     
     

@@ -15,9 +15,8 @@ public class Calculator {
     public void doLoanPayment(FinanceBean fb) {
         var ir = fb.getInterestRate()/12.0;
         double result = fb.getLoanAmount() * (ir / (1 - Math.pow(1 + ir, -fb.getTerm())));
-        result = Math.round(result*100);
-        result /= 100;
-        fb.setResult(Math.abs(result));
+        System.out.println("result = " + result);
+        fb.setResult(doRounding(result));
     }
 
     /**
@@ -28,22 +27,26 @@ public class Calculator {
     public void doFutureValue(FinanceBean fb) {
         var ir = fb.getInterestRate()/12.0;
         double result = fb.getSavingsAmount() * ((1 - Math.pow(1 + ir, fb.getTerm()))/ir);
-        result = Math.round(result*100);
-        result /= 100;
-        fb.setResult(Math.abs(result));
+        System.out.println("result = " + result);
+        fb.setResult(doRounding(result));
     }
 
     /**
-     * Calculate the amount you will have saved from making regular payments
-     * each month
+     * Calculate how much you need to save to reach specific goal each month
      *
      * @param fb FinanceBean with the user input and where the answer will go
      */
     public void doSavingsGoal(FinanceBean fb) {
         var ir = fb.getInterestRate()/12.0;
         double result = fb.getFutureValue() * (ir/(1 - Math.pow(1 + ir, fb.getTerm())));
-        result = Math.round(result*100);
-        result /= 100;
-        fb.setResult(Math.abs(result));
+        System.out.println("result = " + result);
+        fb.setResult(doRounding(result));
     }
+    
+    private double doRounding(double result) {
+        result = Math.round(result * 100);
+        result /= 100;
+        return Math.abs(result);
+    }
+    
 }
